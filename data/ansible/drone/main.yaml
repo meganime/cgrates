@@ -28,8 +28,14 @@
     drone_validate_plugin_endpoint: 127.0.0.1:3001
     docker_runner_capacity: 20
 
-    drone_user_create: meganime
+    drone_user_create: cgrates
     drone_user_filter: 
+      - cgrates
+      - danbogos
+      - TeoV
+      - Trial97
+      - porosnicuadrian
+      - andronache98
       - meganime
     ###############################################################
     # CGRateS vars
