@@ -11,7 +11,7 @@ steps:
   pull: never
   image: cgrates-it-entrypoint
   commands:
-  - go test -run=/utils/logger_test.go
+  - ./test.sh
 - name: notify
   pull: never
   image: drillster/drone-email
