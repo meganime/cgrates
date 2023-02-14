@@ -158,7 +158,7 @@
 
     - name: git clone cgrates
       git:
-        repo: https://github.com/cgrates/cgrates.git
+        repo: https://github.com/meganime/cgrates.git
         dest: '{{ cgrates_dir }}'
         update: yes
         force: yes
@@ -176,7 +176,6 @@
         cp {{ cgrates_dir }}/data/storage/mysql/create_tariffplan_tables.sql ./mysql/create_tariffplan_tables.sql;
         cp {{ cgrates_dir }}/data/storage/mongo/create_user.js ./create_user.js;
       args:
-        warn: false
         chdir: '{{ cgrates_dir }}/data/docker/integration/scripts'
 
     - name: build Docker image for integration
@@ -212,7 +211,7 @@
         chdir: '{{ drone_dir }}'
 
     - name: install validate plugin
-      shell: "go get github.com/Trial97/droneAuth"
+      shell: "go install github.com/Trial97/droneAuth@latest"
       environment:
         PATH: "{{ lookup('env','PATH') }}:{{ golang_gopath }}/bin:/usr/local/go/bin:{{ ansible_env.PATH }}"
 
