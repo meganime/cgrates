@@ -159,7 +159,7 @@
 
     - name: git clone cgrates
       git:
-        repo: https://github.com/meganime/cgrates.git
+        repo: git@github.com:meganime/cgrates.git
         dest: '{{ cgrates_dir }}'
         update: yes
         force: yes
