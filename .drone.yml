@@ -11,16 +11,17 @@ steps:
   pull: never
   image: cgrates-it-entrypoint
   commands:
+  - docker-entrypoint.sh
   - ./test.sh
 - name: notify
   pull: never
   image: drillster/drone-email
   settings:
-    from: arber.katellari@itsyscom.com
+    from: cgrates.test01@gmail.com
     host: smtp.gmail.com
-    username:
+    username: 
       from_secret: email_username
-    password: 
+    password:
       from_secret: email_password
     subject: >
       [{{ build.status }}]
@@ -35,9 +36,7 @@ steps:
       Commit message: {{ commit.message }}
       Commit branch: {{ commit.branch }}
       Commit link: {{ commit.link }}
-    recipients:
-        - arberkatellari@live.com
+    recipients_file: recipients
+    recipients_only: true
   when:
-      status:
-      - success
-      - failure
+    status: failure
