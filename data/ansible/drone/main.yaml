@@ -254,6 +254,7 @@
         docker rm drone;
         docker stop runner;
         docker rm runner;
+      ignore_errors: true
 
 
     - name:  Start drone
