@@ -57,6 +57,10 @@
         
     - name: Configure docker 
       import_tasks: docker.yaml
+
+    - name: Configure drone server and runner
+      become: yes
+      import_tasks: drone_setup.yaml
 ###########################################################################################################################
 ###########################################################################################################################
 # Install Golang
