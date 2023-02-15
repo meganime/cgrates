@@ -1,7 +1,5 @@
-- hosts: ci
-  vars:
-    drone_server_host: 6126-193-163-187-149.eu.ngrok.io
-  tasks:
+---
+
     # We need docker first
     # - name: Configure docker 
     #   include: docker.yaml
