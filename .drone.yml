@@ -1,11 +1,14 @@
 kind: pipeline
 type: docker
 name: unit
+
 workspace:
   path: /cgrates
+
 steps:
 - name: unit
   pull: never
+  image: cgrates-integration
   commands:
   - ./test.sh
 - name: notify
