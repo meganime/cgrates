@@ -6,7 +6,6 @@ workspace:
 steps:
 - name: unit
   pull: never
-  image: cgrates-it-entrypoint
   commands:
   - ./test.sh
 - name: notify
