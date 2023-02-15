@@ -249,10 +249,11 @@
 
     - name: Remove previous containers
       become: yes
-      shell: docker stop drone;
-      docker rm drone;
-      docker stop runner;
-      docker rm runner;
+      shell: 
+        docker stop drone;
+        docker rm drone;
+        docker stop runner;
+        docker rm runner;
 
 
     - name:  Start drone
