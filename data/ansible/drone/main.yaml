@@ -57,10 +57,6 @@
         
     - name: Configure docker 
       import_tasks: docker.yaml
-
-    - name: Configure drone server and runner
-      become: yes
-      import_tasks: drone_setup.yaml
 ###########################################################################################################################
 ###########################################################################################################################
 # Install Golang
@@ -239,7 +235,7 @@
       environment:
         PATH: "{{ lookup('env','PATH') }}:{{ golang_gopath }}/bin:/usr/local/go/bin:{{ ansible_env.PATH }}"
     
-    - name: start drone
+    - name: start drone-server
       become: yes
       shell: "drone-server --env-file=/home/{{ user }}/.env >/home/{{ user }}/drone.log 2>&1 &"
       async: 10
@@ -247,6 +243,15 @@
       environment:
         PATH: "{{ lookup('env','PATH') }}:{{ golang_gopath }}/bin:/usr/local/go/bin:{{ ansible_env.PATH }}"
     
+    - name: Check if drone is running
+      shell: docker container ls -q -f="name=drone"
+      register: continerList3
+
+    - name:  Start drone
+      become: yes
+      shell: docker run -v /var/lib/drone:/data -e DRONE_GITHUB_CLIENT_ID="{{ drone_github_client_id }}" -e DRONE_GITHUB_CLIENT_SECRET="{{ drone_github_client_secret }}" -e DRONE_RPC_SECRET="{{ drone_secret.stdout }}" -e DRONE_SERVER_HOST="{{ drone_server_host }}" -e DRONE_SERVER_PROTO="https" -p 80:80 -p 433:433 --restart always --detach true --name drone drone/drone:2
+      when: continerList3.stdout_lines|length == 0
+
     - name: Check if drone-runner is running
       become: yes
       shell: docker container ls -q -f="name=drone-runner"
