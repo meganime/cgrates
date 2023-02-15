@@ -1,36 +1,40 @@
 kind: pipeline
 type: docker
 name: unit
-
-
 workspace:
   path: /cgrates
-
 steps:
 - name: unit
   pull: never
   image: cgrates-it-entrypoint
   commands:
-  - docker-entrypoint.sh
   - ./test.sh
-# - name: notify
-#   pull: never
-#   image: drillster/drone-email
-#   settings:
-#     from: arber.katellari@itsyscom.com
-#     host: smtp.gmail.com
-#     username:
-#       from_secret: email_username
-#     password: 
-#       from_secret: email_password
-#     subject: >
-#       [{{ build.status }}]
-#       Commit message: {{ commit.message }}
-#       Commit branch: {{ commit.branch }}
-#       Commit link: {{ commit.link }}
-#     recipients:
-#         - arberkatellari@live.com
-#   when:
-#       status:
-#       - success
-#       - failure
+- name: notify
+  pull: never
+  image: drillster/drone-email
+  settings:
+    from: arber.katellari@itsyscom.com
+    host: smtp.gmail.com
+    username:
+      from_secret: email_username
+    password: 
+      from_secret: email_password
+    subject: >
+      [{{ build.status }}]
+      {{ repo.owner }}/{{ repo.name }}
+      ({{ commit.branch }})
+    body: >
+      Build number: # {{ build.number }}
+      Build link: {{ build.link }}
+      Build started: {{ build.started }}
+      Build ended: {{ build.finished }}
+      Commit author: {{ commit.author.name }}
+      Commit message: {{ commit.message }}
+      Commit branch: {{ commit.branch }}
+      Commit link: {{ commit.link }}
+    recipients:
+        - arberkatellari@live.com
+  when:
+      status:
+      - success
+      - failure
