@@ -34,8 +34,8 @@ steps:
       Commit message: {{ commit.message }}
       Commit branch: {{ commit.branch }}
       Commit link: {{ commit.link }}
-    recipients_file: recipients
-    recipients_only: true
+    recipients:
+        - arberkatellari@live.com
   when:
       status:
       - success
