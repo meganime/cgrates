@@ -12,30 +12,17 @@ steps:
 #   commands:
 #   - go test ./utils
 - name: notify
-  pull: never
   image: drillster/drone-email
   settings:
-    from: arber.katellari@itsyscom.com
+    from.address: noreply@gmail.com
+    from.name: John Smith
     host: smtp.gmail.com
-    username:
+    username: 
       from_secret: email_username
     password: 
       from_secret: email_password
-    subject: >
-      [{{ build.status }}]
-      {{ repo.owner }}/{{ repo.name }}
-      ({{ commit.branch }})
-    body: >
-      Build number: # {{ build.number }}
-      Build link: {{ build.link }}
-      Build started: {{ build.started }}
-      Build ended: {{ build.finished }}
-      Commit author: {{ commit.author.name }}
-      Commit message: {{ commit.message }}
-      Commit branch: {{ commit.branch }}
-      Commit link: {{ commit.link }}
     recipients:
-        - arber.katellari@itsyscom.com
+      - arber.katellari@itsyscom.com
   when:
       status:
       - success
