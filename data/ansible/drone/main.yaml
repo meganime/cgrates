@@ -93,13 +93,13 @@
         mode: 'u=rwx,go=rx'
         owner: "{{ user }}"
         group: "{{ user }}"
-        dest: '{{ golang_gopath }}/src/github.com/Trial97/drone-email'
+        dest: '{{ golang_gopath }}/src/github.com/Drillster/drone-email'
       become_user: "{{ user }}"
 
     - name: git clone mailer
       git:
-        repo: https://github.com/Trial97/drone-email.git
-        dest: '{{ golang_gopath }}/src/github.com/Trial97/drone-email'
+        repo: https://github.com/Drillster/drone-email.git
+        dest: '{{ golang_gopath }}/src/github.com/Drillster/drone-email'
         update: yes
         force: yes
         version: "master"
@@ -108,9 +108,9 @@
 
     - name: build Docker image for mail plugin
       become: yes
-      shell: docker build -t trial97/drone-email {{ golang_gopath }}/src/github.com/Trial97/drone-email
+      shell: docker build -t drillster/drone-email {{ golang_gopath }}/src/github.com/Drillster/drone-email
       args:
-        chdir: '{{ golang_gopath }}/src/github.com/Trial97/drone-email'
+        chdir: '{{ golang_gopath }}/src/github.com/Drillster/drone-email'
 
 
     - name: create drone-cli directory
