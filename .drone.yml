@@ -14,7 +14,7 @@ steps:
 - name: notify
   image: drillster/drone-email
   settings:
-    from: noreply@gmail.com
+    from: arber.katellari@itsyscom.com
     host: smtp.gmail.com
     username: 
       from_secret: email_username
