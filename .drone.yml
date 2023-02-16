@@ -21,7 +21,7 @@ steps:
     password: 
       from_secret: email_password
     recipients:
-      - arber0katellari@gmail.com
+      - morganfreeman005@gmail.com
   when:
       status:
       - success
