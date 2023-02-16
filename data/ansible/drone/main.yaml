@@ -268,8 +268,6 @@
           --env=DRONE_SERVER_HOST={{ drone_server_host }} \
           --env=DRONE_SERVER_PROTO=https \
           --env=DRONE_SERVER_PROXY_PROTO=https \
-          --env=DRONE_VALIDATE_PLUGIN_ENDPOINT=http://{{ drone_validate_plugin_endpoint }} \
-          --env=DRONE_VALIDATE_PLUGIN_SECRET={{ drone_secret.stdout }}  \
           --env=DRONE_USER_CREATE=username:{{ drone_user_create }},admin:true,token:{{ drone_token.stdout }} \
           --env=DRONE_USER_FILTER={{ drone_user_filter }} \
           --env=DRONE_LOGS_DEBUG=true \
