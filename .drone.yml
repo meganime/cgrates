@@ -6,11 +6,11 @@ workspace:
   path: /cgrates
 
 steps:
-# - name: unit
-#   pull: never
-#   image: cgrates-integration
-#   commands:
-#   - go test ./utils
+- name: unit
+  pull: never
+  image: cgrates-integration
+  commands:
+  - go test ./utils
 - name: notify
   image: drillster/drone-email
   settings:

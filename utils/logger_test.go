@@ -303,9 +303,6 @@ func TestCloseLoggerStdLog(t *testing.T) {
 }
 
 func TestCloseLoggerSysLog(t *testing.T) {
-	if noSysLog {
-		t.SkipNow()
-	}
 	log.SetOutput(io.Discard)
 
 	newLogger := &StdLogger{nodeID: EmptyString}
