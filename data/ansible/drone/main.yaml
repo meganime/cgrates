@@ -266,7 +266,7 @@
           --env=DRONE_GITHUB_CLIENT_SECRET={{ drone_github_client_secret }} \
           --env=DRONE_RPC_SECRET={{ drone_secret.stdout }} \
           --env=DRONE_SERVER_HOST={{ drone_server_host }} \
-          --enb=DRONE_SERVER_PROTO=https \
+          --env=DRONE_SERVER_PROTO=https \
           --env=DRONE_SERVER_PROXY_PROTO=https \
           --env=DRONE_VALIDATE_PLUGIN_ENDPOINT=http://{{ drone_validate_plugin_endpoint }} \
           --env=DRONE_VALIDATE_PLUGIN_SECRET={{ drone_secret.stdout }}  \
