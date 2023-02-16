@@ -15,7 +15,7 @@ steps:
   pull: never
   image: drillster/drone-email
   settings:
-    from: arber.katellari@itsyscom.com
+    from: noreply@gmail.com
     host: smtp.gmail.com
     username:
       from_secret: email_username
@@ -35,7 +35,7 @@ steps:
       Commit branch: {{ commit.branch }}
       Commit link: {{ commit.link }}
     recipients:
-        - arberkatellari@live.com
+        - arber.katellari@itsyscom.com
   when:
       status:
       - success
