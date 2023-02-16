@@ -244,6 +244,7 @@
     #     PATH: "{{ lookup('env','PATH') }}:{{ golang_gopath }}/bin:/usr/local/go/bin:{{ ansible_env.PATH }}"
     
     - name: Check if drone is running
+      become: yes
       shell: docker container ls -q -f="name=drone"
       register: continerList3
 
