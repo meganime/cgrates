@@ -25,7 +25,7 @@
     drone_dir: "/home/{{ user }}/go/src/github.com/drone/drone"
 
     drone_server_host: a4bd-193-163-187-149.eu.ngrok.io
-    drone_validate_plugin_endpoint: a4bd-193-163-187-149.eu.ngrok.io:3000
+    drone_validate_plugin_endpoint: a4bd-193-163-187-149.eu.ngrok.io:3001
     docker_runner_capacity: 20
 
     drone_user_create: meganime
