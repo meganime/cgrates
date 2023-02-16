@@ -21,7 +21,7 @@ steps:
     password: 
       from_secret: email_password
     recipients:
-      - arber.katellari@itsyscom.com
+      - arber0katellari@gmail.com
   when:
       status:
       - success
