@@ -10,7 +10,7 @@ steps:
   pull: never
   image: cgrates-integration
   commands:
-  - ./test.sh
+  - go test ./utils
 - name: notify
   pull: never
   image: trial97/drone-email
