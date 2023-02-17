@@ -178,41 +178,41 @@
       args:
         chdir: '{{ cgrates_dir }}/data/docker/integration'
 
-    - name: create drone directory
-      become: yes
-      file:
-        state: directory
-        mode: 'u=rwx,go=rx'
-        owner: "{{ user }}"
-        group: "{{ user }}"
-        dest: '{{ drone_dir }}'
-      become_user: "{{ user }}"
+    # - name: create drone directory
+    #   become: yes
+    #   file:
+    #     state: directory
+    #     mode: 'u=rwx,go=rx'
+    #     owner: "{{ user }}"
+    #     group: "{{ user }}"
+    #     dest: '{{ drone_dir }}'
+    #   become_user: "{{ user }}"
 
-    - name: git clone drone
-      git:
-        repo: https://github.com/drone/drone.git
-        dest: '{{ drone_dir }}'
-        update: yes
-        force: yes
-      become: yes
-      become_user: "{{ user }}"
+    # - name: git clone drone
+    #   git:
+    #     repo: https://github.com/drone/drone.git
+    #     dest: '{{ drone_dir }}'
+    #     update: yes
+    #     force: yes
+    #   become: yes
+    #   become_user: "{{ user }}"
 
-    - name: build drone
-      shell: "go install github.com/drone/drone/cmd/drone-server"
-      environment:
-        PATH: "{{ lookup('env','PATH') }}:{{ golang_gopath }}/bin:/usr/local/go/bin:{{ ansible_env.PATH }}"
-      args:
-        chdir: '{{ drone_dir }}'
+    # - name: build drone
+    #   shell: "go install github.com/drone/drone/cmd/drone-server"
+    #   environment:
+    #     PATH: "{{ lookup('env','PATH') }}:{{ golang_gopath }}/bin:/usr/local/go/bin:{{ ansible_env.PATH }}"
+    #   args:
+    #     chdir: '{{ drone_dir }}'
 
-    - name: install validate plugin
-      shell: "go install github.com/Trial97/droneAuth@latest"
-      environment:
-        PATH: "{{ lookup('env','PATH') }}:{{ golang_gopath }}/bin:/usr/local/go/bin:{{ ansible_env.PATH }}"
+    # - name: install validate plugin
+    #   shell: "go install github.com/Trial97/droneAuth@latest"
+    #   environment:
+    #     PATH: "{{ lookup('env','PATH') }}:{{ golang_gopath }}/bin:/usr/local/go/bin:{{ ansible_env.PATH }}"
 
-    - name: export users
-      template:
-        src: users.json.j2
-        dest: /home/{{ user }}/users.json
+    # - name: export users
+    #   template:
+    #     src: users.json.j2
+    #     dest: /home/{{ user }}/users.json
 
     - name:  generate RPCSecret
       shell: "openssl rand -hex 16"
@@ -227,12 +227,12 @@
       #   src: .env.j2
       #   dest: /home/{{ user }}/.env
     
-    - name: start validate plugin
-      shell: "droneAuth -secret={{ drone_secret.stdout }} -cfg=/home/{{ user }}/users.json -endpoint={{ drone_validate_plugin_endpoint }}>/dev/null 2>&1 &"
-      async: 10
-      poll: 0
-      environment:
-        PATH: "{{ lookup('env','PATH') }}:{{ golang_gopath }}/bin:/usr/local/go/bin:{{ ansible_env.PATH }}"
+    # - name: start validate plugin
+    #   shell: "droneAuth -secret={{ drone_secret.stdout }} -cfg=/home/{{ user }}/users.json -endpoint={{ drone_validate_plugin_endpoint }}>/dev/null 2>&1 &"
+    #   async: 10
+    #   poll: 0
+    #   environment:
+    #     PATH: "{{ lookup('env','PATH') }}:{{ golang_gopath }}/bin:/usr/local/go/bin:{{ ansible_env.PATH }}"
     
     # - name: start drone-server
     #   become: yes
