@@ -204,15 +204,15 @@
     #   args:
     #     chdir: '{{ drone_dir }}'
 
-    # - name: install validate plugin
-    #   shell: "go install github.com/Trial97/droneAuth@latest"
-    #   environment:
-    #     PATH: "{{ lookup('env','PATH') }}:{{ golang_gopath }}/bin:/usr/local/go/bin:{{ ansible_env.PATH }}"
+    - name: install validate plugin
+      shell: "go install github.com/Trial97/droneAuth@latest"
+      environment:
+        PATH: "{{ lookup('env','PATH') }}:{{ golang_gopath }}/bin:/usr/local/go/bin:{{ ansible_env.PATH }}"
 
-    # - name: export users
-    #   template:
-    #     src: users.json.j2
-    #     dest: /home/{{ user }}/users.json
+    - name: export users
+      template:
+        src: users.json.j2
+        dest: /home/{{ user }}/users.json
 
     - name:  generate RPCSecret
       shell: "openssl rand -hex 16"
@@ -227,12 +227,12 @@
       #   src: .env.j2
       #   dest: /home/{{ user }}/.env
     
-    # - name: start validate plugin
-    #   shell: "droneAuth -secret={{ drone_secret.stdout }} -cfg=/home/{{ user }}/users.json -endpoint={{ drone_validate_plugin_endpoint }}>/dev/null 2>&1 &"
-    #   async: 10
-    #   poll: 0
-    #   environment:
-    #     PATH: "{{ lookup('env','PATH') }}:{{ golang_gopath }}/bin:/usr/local/go/bin:{{ ansible_env.PATH }}"
+    - name: start validate plugin
+      shell: "droneAuth -secret={{ drone_secret.stdout }} -cfg=/home/{{ user }}/users.json -endpoint={{ drone_validate_plugin_endpoint }}>/dev/null 2>&1 &"
+      async: 10
+      poll: 0
+      environment:
+        PATH: "{{ lookup('env','PATH') }}:{{ golang_gopath }}/bin:/usr/local/go/bin:{{ ansible_env.PATH }}"
     
     # - name: start drone-server
     #   become: yes
@@ -255,7 +255,7 @@
         docker stop runner;
         docker rm runner;
       ignore_errors: true
-      when: continerList3.stdout_lines|length == 0
+
 
     - name:  Start drone
       become: yes
@@ -268,6 +268,8 @@
           --env=DRONE_SERVER_HOST={{ drone_server_host }} \
           --env=DRONE_SERVER_PROTO=https \
           --env=DRONE_USER_CREATE=username:{{ drone_user_create }},admin:true,token:{{ drone_token.stdout }} \
+          --env=DRONE_VALIDATE_PLUGIN_ENDPOINT=http://{{ drone_validate_plugin_endpoint }} \
+          --env=DRONE_VALIDATE_PLUGIN_SECRET={{ drone_secret.stdout }} \
           --env=DRONE_USER_FILTER={{ drone_user_filter }} \
           --env=DRONE_LOGS_DEBUG=true \
           --publish=80:80 \
