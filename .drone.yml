@@ -80,8 +80,7 @@ steps:
 #       Commit link: {{ commit.link }}
 #     recipients:
 #       - morganfreeman005@gmail.com
-#   when:
-#     status: failure 
+
 
 # ---
 # kind: pipeline
@@ -125,8 +124,7 @@ steps:
 #       Commit link: {{ commit.link }}
 #     recipients:
 #       - morganfreeman005@gmail.com
-#   when:
-#     status: failure
+
 
 # ---
 # kind: pipeline
@@ -170,8 +168,7 @@ steps:
 #       Commit link: {{ commit.link }}
 #     recipients:
 #       - morganfreeman005@gmail.com
-#   when:
-#     status: failure
+
 
 # ---
 # kind: pipeline
@@ -215,5 +212,3 @@ steps:
 #       Commit link: {{ commit.link }}
 #     recipients:
 #       - morganfreeman005@gmail.com
-#   when:
-#     status: failure
