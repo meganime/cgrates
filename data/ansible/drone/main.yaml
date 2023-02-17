@@ -6,7 +6,7 @@
     ##################### Golang Vars #############################
     ###############################################################
     # Go language SDK version number
-    golang_version: '1.18'
+    golang_version: '1.20'
     go_version_target: "go version go{{ golang_version }} linux/amd64"
     # Mirror to download the Go language SDK redistributable package from
     golang_mirror: 'https://storage.googleapis.com/golang'
@@ -24,8 +24,8 @@
     #################################################################
     drone_dir: "/home/{{ user }}/go/src/github.com/drone/drone"
 
-    drone_server_host: a4bd-193-163-187-149.eu.ngrok.io
-    drone_validate_plugin_endpoint: a4bd-193-163-187-149.eu.ngrok.io:3000
+    # drone_server_host: a4bd-193-163-187-149.eu.ngrok.io
+    # drone_validate_plugin_endpoint: a4bd-193-163-187-149.eu.ngrok.io:3000
     docker_runner_capacity: 20
 
     drone_user_create: meganime
@@ -178,41 +178,41 @@
       args:
         chdir: '{{ cgrates_dir }}/data/docker/integration'
 
-    - name: create drone directory
-      become: yes
-      file:
-        state: directory
-        mode: 'u=rwx,go=rx'
-        owner: "{{ user }}"
-        group: "{{ user }}"
-        dest: '{{ drone_dir }}'
-      become_user: "{{ user }}"
+    # - name: create drone directory
+    #   become: yes
+    #   file:
+    #     state: directory
+    #     mode: 'u=rwx,go=rx'
+    #     owner: "{{ user }}"
+    #     group: "{{ user }}"
+    #     dest: '{{ drone_dir }}'
+    #   become_user: "{{ user }}"
 
-    - name: git clone drone
-      git:
-        repo: https://github.com/drone/drone.git
-        dest: '{{ drone_dir }}'
-        update: yes
-        force: yes
-      become: yes
-      become_user: "{{ user }}"
+    # - name: git clone drone
+    #   git:
+    #     repo: https://github.com/drone/drone.git
+    #     dest: '{{ drone_dir }}'
+    #     update: yes
+    #     force: yes
+    #   become: yes
+    #   become_user: "{{ user }}"
 
-    - name: build drone
-      shell: "go install github.com/drone/drone/cmd/drone-server"
-      environment:
-        PATH: "{{ lookup('env','PATH') }}:{{ golang_gopath }}/bin:/usr/local/go/bin:{{ ansible_env.PATH }}"
-      args:
-        chdir: '{{ drone_dir }}'
+    # - name: build drone
+    #   shell: "go install github.com/drone/drone/cmd/drone-server"
+    #   environment:
+    #     PATH: "{{ lookup('env','PATH') }}:{{ golang_gopath }}/bin:/usr/local/go/bin:{{ ansible_env.PATH }}"
+    #   args:
+    #     chdir: '{{ drone_dir }}'
 
-    - name: install validate plugin
-      shell: "go install github.com/Trial97/droneAuth@latest"
-      environment:
-        PATH: "{{ lookup('env','PATH') }}:{{ golang_gopath }}/bin:/usr/local/go/bin:{{ ansible_env.PATH }}"
+    # - name: install validate plugin
+    #   shell: "go install github.com/Trial97/droneAuth@latest"
+    #   environment:
+    #     PATH: "{{ lookup('env','PATH') }}:{{ golang_gopath }}/bin:/usr/local/go/bin:{{ ansible_env.PATH }}"
 
-    - name: export users
-      template:
-        src: users.json.j2
-        dest: /home/{{ user }}/users.json
+    # - name: export users
+    #   template:
+    #     src: users.json.j2
+    #     dest: /home/{{ user }}/users.json
 
     - name:  generate RPCSecret
       shell: "openssl rand -hex 16"
@@ -227,12 +227,12 @@
       #   src: .env.j2
       #   dest: /home/{{ user }}/.env
     
-    - name: start validate plugin
-      shell: "droneAuth -secret={{ drone_secret.stdout }} -cfg=/home/{{ user }}/users.json -endpoint={{ drone_validate_plugin_endpoint }}>/dev/null 2>&1 &"
-      async: 10
-      poll: 0
-      environment:
-        PATH: "{{ lookup('env','PATH') }}:{{ golang_gopath }}/bin:/usr/local/go/bin:{{ ansible_env.PATH }}"
+    # - name: start validate plugin
+    #   shell: "droneAuth -secret={{ drone_secret.stdout }} -cfg=/home/{{ user }}/users.json -endpoint={{ drone_validate_plugin_endpoint }}>/dev/null 2>&1 &"
+    #   async: 10
+    #   poll: 0
+    #   environment:
+    #     PATH: "{{ lookup('env','PATH') }}:{{ golang_gopath }}/bin:/usr/local/go/bin:{{ ansible_env.PATH }}"
     
     # - name: start drone-server
     #   become: yes
@@ -255,7 +255,7 @@
         docker stop runner;
         docker rm runner;
       ignore_errors: true
-
+      when: continerList3.stdout_lines|length == 0
 
     - name:  Start drone
       become: yes
@@ -276,7 +276,7 @@
           --detach=true \
           --name=drone \
           drone/drone:2
-      when: continerList3.stdout_lines|length == 0
+      
 
     - name: Check if drone-runner is running
       become: yes
