@@ -40,49 +40,6 @@ steps:
       status:
       - failure
 
-# kind: pipeline
-# type: docker
-# name: unit
-
-
-# workspace:
-#   path: /cgrates
-
-# steps:
-# - name: unit
-#   pull: never
-#   image: cgrates-integration
-#   commands:
-
-#   - go test ./utils
-# - name: notify
-#   pull: never
-#   image: drillster/drone-email
-#   settings:
-#     from: arber.katellari@itsyscom.com
-#     host: smtp.gmail.com
-#     username: 
-#       from_secret: email_username
-#     password:
-#       from_secret: email_password
-#     subject: >
-#       [{{ build.status }}]
-#       {{ repo.owner }}/{{ repo.name }}
-#       ({{ commit.branch }})
-#     body: >
-#       Build number: # {{ build.number }}
-#       Build link: {{ build.link }}
-#       Build started: {{ build.started }}
-#       Build ended: {{ build.finished }}
-#       Commit author: {{ commit.author.name }}
-#       Commit message: {{ commit.message }}
-#       Commit branch: {{ commit.branch }}
-#       Commit link: {{ commit.link }}
-#     recipients:
-#       - morganfreeman005@gmail.com
-#   when:
-#     status: failure
-
 # ---
 # kind: pipeline
 # type: docker
