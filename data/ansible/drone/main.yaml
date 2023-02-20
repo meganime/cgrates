@@ -295,18 +295,12 @@
       shell: docker run -d -v /var/run/docker.sock:/var/run/docker.sock -e DRONE_RPC_PROTO="https" -e DRONE_RPC_HOST="{{ drone_server_host }}" -e DRONE_RPC_SECRET="{{ drone_secret.stdout }}" -e DRONE_RUNNER_CAPACITY={{ docker_runner_capacity }} -e DRONE_RUNNER_NAME=cgrates -p 3000:3000 --restart always --name runner drone/drone-runner-docker:1
 
 
-    - name: adding drone server and token
+    - name: connect drone-cli to drone server
       become: yes
       shell: |
         export DRONE_SERVER=https://{{ drone_server_host }};
-        export DRONE_TOKEN={{ drone_token.stdout }};
+        export DRONE_TOKEN={{ personal_token }};
 
-    - name:  list secrets
-      become: yes
-      shell: |
-        drone-cli orgsecret ls;
-
-      
     # - name: Creating credentials file
     #   copy:
     #     dest: "/home/{{ user }}/credentials.json"
@@ -317,16 +311,20 @@
     #     dest: "/home/{{ user }}/token.json"
     #     content: "{{ gapi_token }}"
 
-    # - name:  add secrets
-    #   become: yes
-    #   shell: |
-    #     drone-cli orgsecret add {{ item }} credentials @/home/{{ user }}/credentials.json --allow-pull-request;
-    #     drone-cli orgsecret add {{ item }} token @/home/{{ user }}/token.json --allow-pull-request;
-    #   environment:
-    #     PATH: "{{ lookup('env','PATH') }}:{{ golang_gopath }}/bin:/usr/local/go/bin:{{ ansible_env.PATH }}"
-    #     DRONE_SERVER: "https://{{ drone_server_host }}"
-    #     DRONE_TOKEN: "{{ drone_token.stdout }}"
-    #   with_items: '{{ drone_user_filter }}'
+    - name:  rm gapi secrets
+      become: yes
+      shell: |
+        drone-cli orgsecret rm {{ item }} credentials;
+        drone-cli orgsecret rm {{ item }} token;
+      with_items: '{{ drone_user_filter }}'
+      ignore_errors: True
+
+    - name:  add gapi secrets
+      become: yes
+      shell: |
+        drone-cli orgsecret add {{ item }} credentials {{ gapi_credentials }} --allow-pull-request;
+        drone-cli orgsecret add {{ item }} {{ gapi_token }} --allow-pull-request;
+      with_items: '{{ drone_user_filter }}'
 
     # - name: Removeing credentials file
     #   file:
