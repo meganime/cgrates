@@ -259,7 +259,7 @@
       shell: docker container ls -q -f="name=drone"
       register: continerList1
 
-    - name: Remove previous containers
+    - name: Remove previous drone container
       become: yes
       shell: 
         docker stop drone;
@@ -293,7 +293,7 @@
       shell: docker container ls -q -f="name=drone-runner"
       register: continerList2
 
-    - name: Remove previous containers
+    - name: Remove previous runner container
       become: yes
       shell: 
         docker stop runner;
