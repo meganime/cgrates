@@ -256,7 +256,7 @@
     
     - name: Check if drone is running
       become: yes
-      shell: docker container ls -q -f="name=drone"
+      shell: docker container ls -q -a -f="name=drone"
       register: continerList1
 
     - name: Remove previous drone container
@@ -290,7 +290,7 @@
 
     - name: Check if drone-runner is running
       become: yes
-      shell: docker container ls -q -f="name=runner"
+      shell: docker container ls -q -a -f="name=runner"
       register: continerList2
 
     - name: Remove previous runner container
