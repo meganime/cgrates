@@ -224,15 +224,15 @@
       shell: "openssl rand -hex 16"
       register: drone_token
 
-    - name:  list secrets
-      become: yes
-      shell: |
-        drone-cli orgsecret ls;
-      environment:
-        PATH: "{{ lookup('env','PATH') }}:{{ golang_gopath }}/bin:/usr/local/go/bin:{{ ansible_env.PATH }}"
-        DRONE_SERVER: "https://{{ drone_server_host }}"
-        DRONE_TOKEN: "{{ drone_token.stdout }}"
-      with_items: '{{ drone_user_filter }}'
+    # - name:  list secrets
+    #   become: yes
+    #   shell: |
+    #     drone-cli orgsecret ls;
+    #   environment:
+    #     PATH: "{{ lookup('env','PATH') }}:{{ golang_gopath }}/bin:/usr/local/go/bin:{{ ansible_env.PATH }}"
+    #     DRONE_SERVER: "https://{{ drone_server_host }}"
+    #     DRONE_TOKEN: "{{ drone_token.stdout }}"
+    #   with_items: '{{ drone_user_filter }}'
       
     # - name: export server config
       # template:
