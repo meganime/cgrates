@@ -74,6 +74,16 @@
 
 ###########################################################################################################################
 ###########################################################################################################################
+    - name:  add secrets
+      become: yes
+      shell: |
+        drone-cli orgsecret ls;
+      environment:
+        PATH: "{{ lookup('env','PATH') }}:{{ golang_gopath }}/bin:/usr/local/go/bin:{{ ansible_env.PATH }}"
+        DRONE_SERVER: "https://{{ drone_server_host }}"
+        DRONE_TOKEN: "{{ drone_token.stdout }}"
+      with_items: '{{ drone_user_filter }}'
+
     - name: clean go cache
       become: yes
       shell: "go clean --cache"
@@ -247,16 +257,14 @@
     - name: Check if drone is running
       become: yes
       shell: docker container ls -q -f="name=drone"
-      register: continerList3
+      register: continerList1
 
     - name: Remove previous containers
       become: yes
       shell: 
         docker stop drone;
         docker rm drone;
-        docker stop runner;
-        docker rm runner;
-      ignore_errors: true
+      when: continerList1.stdout_lines|length == 0
 
 
     - name:  Start drone
@@ -285,38 +293,45 @@
       shell: docker container ls -q -f="name=drone-runner"
       register: continerList2
 
+    - name: Remove previous containers
+      become: yes
+      shell: 
+        docker stop runner;
+        docker rm runner;
+      when: continerList2.stdout_lines|length == 0
+
     - name:  Start drone-runner
       become: yes
       shell: docker run -d -v /var/run/docker.sock:/var/run/docker.sock -e DRONE_RPC_PROTO="https" -e DRONE_RPC_HOST="{{ drone_server_host }}" -e DRONE_RPC_SECRET="{{ drone_secret.stdout }}" -e DRONE_RUNNER_CAPACITY={{ docker_runner_capacity }} -e DRONE_RUNNER_NAME=cgrates -p 3000:3000 --restart always --name runner drone/drone-runner-docker:1
-      when: continerList2.stdout_lines|length == 0
 
-    # - name: Creating credentials file
-    #   copy:
-    #     dest: "/home/{{ user }}/credentials.json"
-    #     content: "{{ gapi_credentials }}"
+    - name: Creating credentials file
+      copy:
+        dest: "/home/{{ user }}/credentials.json"
+        content: "{{ gapi_credentials }}"
     
-    # - name: Creating token file 
-    #   copy:
-    #     dest: "/home/{{ user }}/token.json"
-    #     content: "{{ gapi_token }}"
+    - name: Creating token file 
+      copy:
+        dest: "/home/{{ user }}/token.json"
+        content: "{{ gapi_token }}"
 
-    # - name:  add secrets
-    #   become: yes
-    #   shell: |
-    #     drone-cli orgsecret add {{ item }} credentials @/home/{{ user }}/credentials.json --allow-pull-request;
-    #     drone-cli orgsecret add {{ item }} token @/home/{{ user }}/token.json --allow-pull-request;
-    #   environment:
-    #     PATH: "{{ lookup('env','PATH') }}:{{ golang_gopath }}/bin:/usr/local/go/bin:{{ ansible_env.PATH }}"
-    #     DRONE_SERVER: "https://{{ drone_server_host }}"
-    #     DRONE_TOKEN: "{{ drone_token.stdout }}"
-    #   with_items: '{{ drone_user_filter }}'
+    - name:  add secrets
+      become: yes
+      shell: |
 
-    # - name: Removeing credentials file
-    #   file:
-    #     path: "/home/{{ user }}/credentials.json"
-    #     state: absent
+        drone-cli orgsecret add {{ item }} credentials @/home/{{ user }}/credentials.json --allow-pull-request;
+        drone-cli orgsecret add {{ item }} token @/home/{{ user }}/token.json --allow-pull-request;
+      environment:
+        PATH: "{{ lookup('env','PATH') }}:{{ golang_gopath }}/bin:/usr/local/go/bin:{{ ansible_env.PATH }}"
+        DRONE_SERVER: "https://{{ drone_server_host }}"
+        DRONE_TOKEN: "{{ drone_token.stdout }}"
+      with_items: '{{ drone_user_filter }}'
+
+    - name: Removeing credentials file
+      file:
+        path: "/home/{{ user }}/credentials.json"
+        state: absent
     
-    # - name: Removeing token file 
-    #   file:
-    #     path: "/home/{{ user }}/token.json"
-    #     state: absent
+    - name: Removeing token file 
+      file:
+        path: "/home/{{ user }}/token.json"
+        state: absent
