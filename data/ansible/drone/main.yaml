@@ -299,7 +299,7 @@
       become: yes
       shell: |
         export DRONE_SERVER=https://{{ drone_server_host }};
-        export DRONE_TOKEN={{ personal_token }};
+        export DRONE_TOKEN={{ drone_token.stdout }};
 
     # - name: Creating credentials file
     #   copy:
