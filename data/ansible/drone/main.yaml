@@ -312,8 +312,7 @@
       with_items: '{{ drone_user_filter }}'
       register: lsorgscrt
 
-    - name: echo ls orgsecret
-      shell: echo lsorgscrt
+    - debug: var=lsorgscrt
 
     - name:  rm gapi credentials
       become: yes
@@ -324,7 +323,8 @@
         DRONE_SERVER: "https://{{ drone_server_host }}"
         DRONE_TOKEN: "{{ drone_token.stdout }}"
       with_items: '{{ drone_user_filter }}'
-      when: '"credentials" in lsorgscrt.stdout_lines'
+      loop:
+        - when: '"credentials" in lsorgscrt.results'
 
     - name:  rm gapi token
       become: yes
@@ -335,7 +335,8 @@
         DRONE_SERVER: "https://{{ drone_server_host }}"
         DRONE_TOKEN: "{{ drone_token.stdout }}"
       with_items: '{{ drone_user_filter }}'
-      when: '"token" in lsorgscrtst.dout_lines'
+      loop:
+        when: '"token" in lsorgscrtst.results'
 
 
     - name:  add gapi secrets
