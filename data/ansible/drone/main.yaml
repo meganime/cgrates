@@ -327,7 +327,7 @@
       become: yes
       shell: |
         drone-cli orgsecret add {{ item }} credentials {{ gapi_credentials }} --allow-pull-request;
-        drone-cli orgsecret add {{ item }} {{ gapi_token }} --allow-pull-request;
+        drone-cli orgsecret add {{ item }} token {{ gapi_token }} --allow-pull-request;
       environment:
         PATH: "{{ lookup('env','PATH') }}:{{ golang_gopath }}/bin:/usr/local/go/bin:{{ ansible_env.PATH }}"
         DRONE_SERVER: "https://{{ drone_server_host }}"
