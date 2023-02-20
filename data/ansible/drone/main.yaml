@@ -316,6 +316,10 @@
       shell: |
         drone-cli orgsecret rm {{ item }} credentials;
         drone-cli orgsecret rm {{ item }} token;
+      environment:
+        PATH: "{{ lookup('env','PATH') }}:{{ golang_gopath }}/bin:/usr/local/go/bin:{{ ansible_env.PATH }}"
+        DRONE_SERVER: "https://{{ drone_server_host }}"
+        DRONE_TOKEN: "{{ drone_token.stdout }}"
       with_items: '{{ drone_user_filter }}'
       ignore_errors: True
 
@@ -324,6 +328,10 @@
       shell: |
         drone-cli orgsecret add {{ item }} credentials {{ gapi_credentials }} --allow-pull-request;
         drone-cli orgsecret add {{ item }} {{ gapi_token }} --allow-pull-request;
+      environment:
+        PATH: "{{ lookup('env','PATH') }}:{{ golang_gopath }}/bin:/usr/local/go/bin:{{ ansible_env.PATH }}"
+        DRONE_SERVER: "https://{{ drone_server_host }}"
+        DRONE_TOKEN: "{{ drone_token.stdout }}"
       with_items: '{{ drone_user_filter }}'
 
     # - name: Removeing credentials file
