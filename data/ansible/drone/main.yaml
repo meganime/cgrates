@@ -312,7 +312,7 @@
       with_items: '{{ drone_user_filter }}'
       register: ls_orgsecrets
     - set_fact:
-        string_to_echo: "{{ ls_orgsecrets.stdout }}"
+        string_to_echo: "{{ ls_orgsecrets.stdout_lines }}"
 
     - name: echo ls orgsecret
       shell: echo string_to_echo
