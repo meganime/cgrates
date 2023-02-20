@@ -297,7 +297,7 @@
 
     - name:  list secrets
       become: yes
-      shell: drone orgsecret ls
+      shell: drone-cli orgsecret ls
       
     # - name: Creating credentials file
     #   copy:
