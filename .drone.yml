@@ -9,9 +9,8 @@ workspace:
 steps:
 - name: unit
   pull: never
-  image: cgrates-it-entrypoint
+  image: cgrates-integration
   commands:
-  - docker-entrypoint.sh
   - ./test.sh
 - name: notify
   pull: never
@@ -53,9 +52,8 @@ workspace:
 steps:
 - name: integration-internal
   pull: never
-  image: cgrates-it-entrypoint
+  image: cgrates-integration
   commands:
-  - docker-entrypoint.sh
   - ./integration_test.sh -dbtype=*internal
 - name: notify
   pull: never
@@ -97,9 +95,8 @@ workspace:
 steps:
 - name: integration-mysql
   pull: never
-  image: cgrates-it-entrypoint
+  image: cgrates-integration
   commands:
-  - docker-entrypoint.sh
   - ./integration_test.sh -dbtype=*mysql
 - name: notify
   pull: never
@@ -141,9 +138,8 @@ workspace:
 steps:
 - name: integration-mongo
   pull: never
-  image: cgrates-it-entrypoint
+  image: cgrates-integration
   commands:
-  - docker-entrypoint.sh
   - ./integration_test.sh -dbtype=*mongo
 - name: notify
   pull: never
@@ -185,9 +181,8 @@ workspace:
 steps:
 - name: integration-postgres
   pull: never
-  image: cgrates-it-entrypoint
+  image: cgrates-integration
   commands:
-  - docker-entrypoint.sh
   - ./integration_test.sh -dbtype=*postgres
 - name: notify
   pull: never
