@@ -309,10 +309,7 @@
         PATH: "{{ lookup('env','PATH') }}:{{ golang_gopath }}/bin:/usr/local/go/bin:{{ ansible_env.PATH }}"
         DRONE_SERVER: "https://{{ drone_server_host }}"
         DRONE_TOKEN: "{{ drone_token.stdout }}"
-      with_items: '{{ drone_user_filter }}'
       register: lsorgscrt
-
-    - debug: var=lsorgscrt
 
     - name:  rm gapi credentials
       become: yes
@@ -323,8 +320,7 @@
         DRONE_SERVER: "https://{{ drone_server_host }}"
         DRONE_TOKEN: "{{ drone_token.stdout }}"
       with_items: '{{ drone_user_filter }}'
-      loop:
-        when: '"credentials" in lsorgscrt.results'
+      when: '"credentials" in lsorgscrt.stdout'
 
     - name:  rm gapi token
       become: yes
@@ -335,8 +331,7 @@
         DRONE_SERVER: "https://{{ drone_server_host }}"
         DRONE_TOKEN: "{{ drone_token.stdout }}"
       with_items: '{{ drone_user_filter }}'
-      loop:
-        when: '"token" in lsorgscrtst.results'
+      when: '"token" in lsorgscrt.stdout'
 
 
     - name:  add gapi secrets
