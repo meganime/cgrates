@@ -74,16 +74,6 @@
 
 ###########################################################################################################################
 ###########################################################################################################################
-    - name:  listS secrets
-      become: yes
-      shell: |
-        drone-cli orgsecret ls;
-      environment:
-        PATH: "{{ lookup('env','PATH') }}:{{ golang_gopath }}/bin:/usr/local/go/bin:{{ ansible_env.PATH }}"
-        DRONE_SERVER: "https://{{ drone_server_host }}"
-        DRONE_TOKEN: "{{ drone_token.stdout }}"
-      with_items: '{{ drone_user_filter }}'
-
     - name: clean go cache
       become: yes
       shell: "go clean --cache"
@@ -234,6 +224,16 @@
       shell: "openssl rand -hex 16"
       register: drone_token
 
+    - name:  list secrets
+      become: yes
+      shell: |
+        drone-cli orgsecret ls;
+      environment:
+        PATH: "{{ lookup('env','PATH') }}:{{ golang_gopath }}/bin:/usr/local/go/bin:{{ ansible_env.PATH }}"
+        DRONE_SERVER: "https://{{ drone_server_host }}"
+        DRONE_TOKEN: "{{ drone_token.stdout }}"
+      with_items: '{{ drone_user_filter }}'
+      
     # - name: export server config
       # template:
       #   src: .env.j2
@@ -317,7 +317,6 @@
     - name:  add secrets
       become: yes
       shell: |
-
         drone-cli orgsecret add {{ item }} credentials @/home/{{ user }}/credentials.json --allow-pull-request;
         drone-cli orgsecret add {{ item }} token @/home/{{ user }}/token.json --allow-pull-request;
       environment:
