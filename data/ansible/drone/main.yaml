@@ -321,7 +321,7 @@
         DRONE_SERVER: "https://{{ drone_server_host }}"
         DRONE_TOKEN: "{{ drone_token.stdout }}"
       with_items: '{{ drone_user_filter }}'
-      when: '"credentials" in ls_orgsecrets'
+      when: '"credentials" in ls_orgsecrets.stdout'
 
     - name:  rm gapi token
       become: yes
@@ -332,7 +332,7 @@
         DRONE_SERVER: "https://{{ drone_server_host }}"
         DRONE_TOKEN: "{{ drone_token.stdout }}"
       with_items: '{{ drone_user_filter }}'
-      when: '"token" in ls_orgsecrets'
+      when: '"token" in ls_orgsecrets.stdout'
 
 
     - name:  add gapi secrets
