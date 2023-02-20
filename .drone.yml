@@ -10,7 +10,7 @@ steps:
   pull: never
   image: cgrates-integration
   commands:
-  - docker-entrypoint.sh
+  # - docker-entrypoint.sh
   - go test ./utils
 - name: notify
   image: drillster/drone-email
