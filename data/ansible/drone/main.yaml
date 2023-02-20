@@ -301,16 +301,6 @@
         export DRONE_SERVER=https://{{ drone_server_host }};
         export DRONE_TOKEN={{ drone_token.stdout }};
 
-    # - name: Creating credentials file
-    #   copy:
-    #     dest: "/home/{{ user }}/credentials.json"
-    #     content: "{{ gapi_credentials }}"
-    
-    # - name: Creating token file 
-    #   copy:
-    #     dest: "/home/{{ user }}/token.json"
-    #     content: "{{ gapi_token }}"
-
     - name:  rm gapi secrets
       become: yes
       shell: |
@@ -333,13 +323,3 @@
         DRONE_SERVER: "https://{{ drone_server_host }}"
         DRONE_TOKEN: "{{ drone_token.stdout }}"
       with_items: '{{ drone_user_filter }}'
-
-    # - name: Removeing credentials file
-    #   file:
-    #     path: "/home/{{ user }}/credentials.json"
-    #     state: absent
-    
-    # - name: Removeing token file 
-    #   file:
-    #     path: "/home/{{ user }}/token.json"
-    #     state: absent
