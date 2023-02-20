@@ -295,10 +295,17 @@
       shell: docker run -d -v /var/run/docker.sock:/var/run/docker.sock -e DRONE_RPC_PROTO="https" -e DRONE_RPC_HOST="{{ drone_server_host }}" -e DRONE_RPC_SECRET="{{ drone_secret.stdout }}" -e DRONE_RUNNER_CAPACITY={{ docker_runner_capacity }} -e DRONE_RUNNER_NAME=cgrates -p 3000:3000 --restart always --name runner drone/drone-runner-docker:1
 
 
+    - name: adding drone server and token
+      become: yes
+      shell: |
+        export DRONE_SERVER=https://{{ drone_server_host }};
+        export DRONE_TOKEN={{ drone_token.stdout }};
+
     - name:  list secrets
       become: yes
       shell: |
         drone-cli orgsecret ls;
+
       
     # - name: Creating credentials file
     #   copy:
