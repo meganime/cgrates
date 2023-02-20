@@ -324,7 +324,7 @@
         DRONE_TOKEN: "{{ drone_token.stdout }}"
       with_items: '{{ drone_user_filter }}'
       loop:
-        - when: '"credentials" in lsorgscrt.results'
+        when: '"credentials" in lsorgscrt.results'
 
     - name:  rm gapi token
       become: yes
