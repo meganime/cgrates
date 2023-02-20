@@ -312,7 +312,7 @@
         DRONE_TOKEN: "{{ drone_token.stdout }}"
       with_items: '{{ drone_user_filter }}'
 
-      - name:  rm gapi secrets
+      - name:  rm gapi credentials
       become: yes
       shell: |
         drone-cli orgsecret rm {{ item }} credentials;
@@ -323,7 +323,7 @@
       with_items: '{{ drone_user_filter }}'
       when: '"credentials" in ls_orgsecrets'
 
-    - name:  rm gapi secrets
+    - name:  rm gapi token
       become: yes
       shell: |
         drone-cli orgsecret rm {{ item }} token;
