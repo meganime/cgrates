@@ -52,7 +52,6 @@ func TestEmergLogger(t *testing.T) {
 			t.Errorf("Expected %+v, received %+v", expected, rcv)
 		}
 	}
-
 	log.SetOutput(os.Stderr)
 }
 
