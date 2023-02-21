@@ -158,7 +158,7 @@
         dest: '{{ cgrates_dir }}'
         update: yes
         force: yes
-        version: "master"
+        version: "1.0"
       become: yes
       become_user: "{{ user }}"
 
@@ -345,4 +345,4 @@
         PATH: "{{ lookup('env','PATH') }}:{{ golang_gopath }}/bin:/usr/local/go/bin:{{ ansible_env.PATH }}"
         DRONE_SERVER: "https://{{ drone_server_host }}"
         DRONE_TOKEN: "{{ drone_token.stdout }}"
-      with_items: '{{ drone_user_filter }}'
+      with_items: '{
