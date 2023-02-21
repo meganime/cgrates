@@ -268,7 +268,7 @@
           --env=DRONE_SERVER_HOST={{ drone_server_host }} \
           --env=DRONE_SERVER_PROTO=https \
           --env=DRONE_USER_CREATE=username:{{ drone_user_create }},admin:true,token:{{ drone_token.stdout }} \
-          --env=DRONE_USER_FILTER={{ drone_user_filter }} \
+          --env=DRONE_USER_FILTER={{ drone_user_filter | join(',') }} \
           --env=DRONE_LOGS_DEBUG=true \
           --publish=80:80 \
           --publish=443:443 \
@@ -321,7 +321,8 @@
         DRONE_TOKEN: "{{ drone_token.stdout }}"
       with_items: '{{ drone_user_filter }}'
       when: '"credentials" in lsorgscrt.stdout'
-
+      ignore_errors: true
+      
     - name:  rm gapi token
       become: yes
       shell: |
@@ -332,7 +333,7 @@
         DRONE_TOKEN: "{{ drone_token.stdout }}"
       with_items: '{{ drone_user_filter }}'
       when: '"token" in lsorgscrt.stdout'
-
+      ignore_errors: true
 
     - name:  add gapi secrets
       become: yes
