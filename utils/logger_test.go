@@ -237,9 +237,9 @@ func TestLoggerStdLoggerDebug(t *testing.T) {
 }
 
 func TestCloseSysLogger(t *testing.T) {
-	if noSysLog {
-		t.SkipNow()
-	}
+// 	if noSysLog {
+// 		t.SkipNow()
+// 	}
 	sl, _ := NewSysLogger("test", 2)
 
 	if err := sl.Close(); err != nil {
