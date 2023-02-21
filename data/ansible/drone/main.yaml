@@ -322,7 +322,10 @@
         DRONE_SERVER: "https://{{ drone_server_host }}"
         DRONE_TOKEN: "{{ drone_token.stdout }}"
       with_items: '{{ drone_user_filter }}'
+      register: output
       when: '"credentials" in lsorgscrt.stdout'
+      when: '"no rows in result set" in output.stderr'
+        ignore_errors: true
 
     - name:  rm gapi token
       become: yes
