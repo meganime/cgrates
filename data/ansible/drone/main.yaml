@@ -270,7 +270,7 @@
           --env=DRONE_SERVER_HOST={{ drone_server_host }} \
           --env=DRONE_SERVER_PROTO=https \
           --env=DRONE_USER_CREATE=username:{{ drone_user_create }},admin:true,token:{{ drone_token.stdout }} \
-          --env=DRONE_USER_FILTER={{ drone_user_filter }} \
+          --env=DRONE_USER_FILTER={{ drone_user_filter | join(',') }} \
           --env=DRONE_LOGS_DEBUG=true \
           --publish=80:80 \
           --publish=443:443 \
