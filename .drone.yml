@@ -10,7 +10,7 @@ steps:
   pull: never
   image: cgrates-integration
   commands:
-  - go test ./utils
+  - ./test.sh
 - name: notify
   image: drillster/drone-email
   settings:
