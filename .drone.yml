@@ -38,48 +38,48 @@ steps:
   when:
     status: failure
 
----
-kind: pipeline
-type: docker
-name: integration-internal
+# ---
+# kind: pipeline
+# type: docker
+# name: integration-internal
 
 
-workspace:
-  path: /cgrates
+# workspace:
+#   path: /cgrates
 
-steps:
-- name: integration-internal
-  pull: never
-  image: cgrates-integration
-  commands:
+# steps:
+# - name: integration-internal
+#   pull: never
+#   image: cgrates-integration
+#   commands:
 
-  - ./integration_test.sh -dbtype=*internal
-  failure: ignore
-- name: notify
-  pull: never
-  image: drillster/drone-email
-  settings:
-    from: arber.katellari@itsyscom.com
-    host: smtp.gmail.com
-    username: 
-      from_secret: email_username
-    password:
-      from_secret: email_password
-    subject: >
-      [{{ build.status }}]
-      {{ repo.owner }}/{{ repo.name }}
-      ({{ commit.branch }})
-    body: >
-      Build number: # {{ build.number }}
-      Build link: {{ build.link }}
-      Build started: {{ build.started }}
-      Build ended: {{ build.finished }}
-      Commit author: {{ commit.author.name }}
-      Commit message: {{ commit.message }}
-      Commit branch: {{ commit.branch }}
-      Commit link: {{ commit.link }}
-    recipients:
-      - morganfreeman005@gmail.com
+#   - ./integration_test.sh -dbtype=*internal
+#   failure: ignore
+# - name: notify
+#   pull: never
+#   image: drillster/drone-email
+#   settings:
+#     from: arber.katellari@itsyscom.com
+#     host: smtp.gmail.com
+#     username: 
+#       from_secret: email_username
+#     password:
+#       from_secret: email_password
+#     subject: >
+#       [{{ build.status }}]
+#       {{ repo.owner }}/{{ repo.name }}
+#       ({{ commit.branch }})
+#     body: >
+#       Build number: # {{ build.number }}
+#       Build link: {{ build.link }}
+#       Build started: {{ build.started }}
+#       Build ended: {{ build.finished }}
+#       Commit author: {{ commit.author.name }}
+#       Commit message: {{ commit.message }}
+#       Commit branch: {{ commit.branch }}
+#       Commit link: {{ commit.link }}
+#     recipients:
+#       - morganfreeman005@gmail.com
 
 
 # ---
