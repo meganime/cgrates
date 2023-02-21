@@ -8,7 +8,7 @@ workspace:
 steps:
 - name: unit
   pull: never
-  image: cgrates-integration
+  # image: cgrates-integration
   commands:
   - go test ./utils
 - name: notify
