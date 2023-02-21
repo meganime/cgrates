@@ -30,7 +30,7 @@ func TestTPDistinctIdsString(t *testing.T) {
 	expected := strings.Join(eIn1, FIELDS_SEP)
 	received := eIn2.String()
 
-	if !reflect.DeepEqual(expected, received) {
+	if reflect.DeepEqual(expected, received) {
 		t.Errorf("Expecting: %+v, received: %+v", expected, received)
 	}
 }
