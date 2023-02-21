@@ -32,7 +32,6 @@
     drone_user_filter: 
       - meganime
       - arbkat
-      - megameganime
     ###############################################################
     # CGRateS vars
     dependencies:
