@@ -163,11 +163,11 @@
       become: yes
       become_user: "{{ user }}"
 
-    # - name: build Docker image for integration
-    #   become: yes
-    #   shell: docker build -t cgrates-integration {{ cgrates_dir }}/data/docker/integration/
-    #   args:
-    #     chdir: '{{ cgrates_dir }}/data/docker/integration'
+    - name: build Docker image for integration
+      become: yes
+      shell: docker build -t cgrates-integration {{ cgrates_dir }}/data/docker/integration/
+      args:
+        chdir: '{{ cgrates_dir }}/data/docker/integration'
 
     # - name: create drone directory
     #   become: yes
