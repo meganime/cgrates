@@ -28,10 +28,10 @@
     # drone_validate_plugin_endpoint: //public address here
     docker_runner_capacity: 20
 
-    drone_user_create: cgrates
+    drone_user_create: meganime
     drone_user_filter: 
-      - cgrates
       - meganime
+      - arbkat
     ###############################################################
     # CGRateS vars
     dependencies:
@@ -162,17 +162,17 @@
       become: yes
       become_user: "{{ user }}"
 
-    - name: copy storage scripts
-      shell:
-        mkdir -p postgres;
-        cp {{ cgrates_dir }}/data/storage/postgres/create_cdrs_tables.sql ./postgres/create_cdrs_tables.sql;
-        cp {{ cgrates_dir }}/data/storage/postgres/create_tariffplan_tables.sql ./postgres/create_tariffplan_tables.sql;
-        cp {{ cgrates_dir }}/data/storage/mysql/create_cdrs_tables.sql ./mysql/create_cdrs_tables.sql;
-        cp {{ cgrates_dir }}/data/storage/mysql/create_db_with_users.sql ./mysql/create_db_with_users.sql;
-        cp {{ cgrates_dir }}/data/storage/mysql/create_tariffplan_tables.sql ./mysql/create_tariffplan_tables.sql;
-        cp {{ cgrates_dir }}/data/storage/mongo/create_user.js ./create_user.js;
-      args:
-        chdir: '{{ cgrates_dir }}/data/docker/integration/scripts'
+    # - name: copy storage scripts
+    #   shell:
+    #     mkdir -p postgres;
+    #     cp {{ cgrates_dir }}/data/storage/postgres/create_cdrs_tables.sql ./postgres/create_cdrs_tables.sql;
+    #     cp {{ cgrates_dir }}/data/storage/postgres/create_tariffplan_tables.sql ./postgres/create_tariffplan_tables.sql;
+    #     cp {{ cgrates_dir }}/data/storage/mysql/create_cdrs_tables.sql ./mysql/create_cdrs_tables.sql;
+    #     cp {{ cgrates_dir }}/data/storage/mysql/create_db_with_users.sql ./mysql/create_db_with_users.sql;
+    #     cp {{ cgrates_dir }}/data/storage/mysql/create_tariffplan_tables.sql ./mysql/create_tariffplan_tables.sql;
+    #     cp {{ cgrates_dir }}/data/storage/mongo/create_user.js ./create_user.js;
+    #   args:
+    #     chdir: '{{ cgrates_dir }}/data/docker/integration/scripts'
 
     - name: build Docker image for integration
       become: yes
@@ -270,7 +270,7 @@
           --env=DRONE_SERVER_HOST={{ drone_server_host }} \
           --env=DRONE_SERVER_PROTO=https \
           --env=DRONE_USER_CREATE=username:{{ drone_user_create }},admin:true,token:{{ drone_token.stdout }} \
-          --env=DRONE_USER_FILTER={{ drone_user_filter | join(',') }} \
+          --env=DRONE_USER_FILTER={{ drone_user_filter | join(',') }},admin:true \
           --env=DRONE_LOGS_DEBUG=true \
           --publish=80:80 \
           --publish=443:443 \
