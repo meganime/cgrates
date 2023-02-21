@@ -324,9 +324,7 @@
       with_items: '{{ drone_user_filter }}'
       register: output
       when: '"credentials" in lsorgscrt.stdout'
-      failed_when:
-        - output.rc != 0
-        - '"no rows in result set" not in output.stderr'
+      ignore_errors: true
 
     - name:  rm gapi token
       become: yes
@@ -338,6 +336,7 @@
         DRONE_TOKEN: "{{ drone_token.stdout }}"
       with_items: '{{ drone_user_filter }}'
       when: '"token" in lsorgscrt.stdout'
+      ignore_errors: true
 
 
     - name:  add gapi secrets
