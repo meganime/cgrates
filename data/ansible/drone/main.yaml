@@ -322,7 +322,6 @@
         DRONE_SERVER: "https://{{ drone_server_host }}"
         DRONE_TOKEN: "{{ drone_token.stdout }}"
       with_items: '{{ drone_user_filter }}'
-      register: output
       when: '"credentials" in lsorgscrt.stdout'
       ignore_errors: true
 
