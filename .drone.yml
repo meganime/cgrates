@@ -14,7 +14,6 @@ steps:
 - name: notify
   image: drillster/drone-email
   settings:
-    from.address: noreply@gmail.com
     from.name: DroneMail
     host: smtp.gmail.com
     username: 
