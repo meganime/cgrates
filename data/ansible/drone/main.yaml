@@ -88,31 +88,31 @@
       environment:
         PATH: "{{ lookup('env','PATH') }}:{{ golang_gopath }}/bin:/usr/local/go/bin:{{ ansible_env.PATH }}"
 
-    - name: create mailer directory
-      become: yes
-      file:
-        state: directory
-        mode: 'u=rwx,go=rx'
-        owner: "{{ user }}"
-        group: "{{ user }}"
-        dest: '{{ golang_gopath }}/src/github.com/Drillster/drone-email'
-      become_user: "{{ user }}"
+    # - name: create mailer directory
+    #   become: yes
+    #   file:
+    #     state: directory
+    #     mode: 'u=rwx,go=rx'
+    #     owner: "{{ user }}"
+    #     group: "{{ user }}"
+    #     dest: '{{ golang_gopath }}/src/github.com/Drillster/drone-email'
+    #   become_user: "{{ user }}"
 
-    - name: git clone mailer
-      git:
-        repo: https://github.com/Drillster/drone-email.git
-        dest: '{{ golang_gopath }}/src/github.com/Drillster/drone-email'
-        update: yes
-        force: yes
-        version: "master"
-      become: yes
-      become_user: "{{ user }}"
+    # - name: git clone mailer
+    #   git:
+    #     repo: https://github.com/Drillster/drone-email.git
+    #     dest: '{{ golang_gopath }}/src/github.com/Drillster/drone-email'
+    #     update: yes
+    #     force: yes
+    #     version: "master"
+    #   become: yes
+    #   become_user: "{{ user }}"
 
-    - name: build Docker image for mail plugin
-      become: yes
-      shell: docker build -t drillster/drone-email {{ golang_gopath }}/src/github.com/Drillster/drone-email
-      args:
-        chdir: '{{ golang_gopath }}/src/github.com/Drillster/drone-email'
+    # - name: build Docker image for mail plugin
+    #   become: yes
+    #   shell: docker build -t drillster/drone-email {{ golang_gopath }}/src/github.com/Drillster/drone-email
+    #   args:
+    #     chdir: '{{ golang_gopath }}/src/github.com/Drillster/drone-email'
 
 
     - name: create drone-cli directory
