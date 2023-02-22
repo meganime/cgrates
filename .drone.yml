@@ -12,13 +12,14 @@ steps:
   commands:
   - go test ./utils
 - name: notify
+  pull: never
   image: drillster/drone-email
   settings:
-    from.name: DroneMail
+    from: cgrates.test01@gmail.com
     host: smtp.gmail.com
     username: 
       from_secret: email_username
-    password: 
+    password:
       from_secret: email_password
     subject: >
       [{{ build.status }}]
@@ -33,10 +34,8 @@ steps:
       Commit message: {{ commit.message }}
       Commit branch: {{ commit.branch }}
       Commit link: {{ commit.link }}
-    recipients:
-      - morganfreeman005@gmail.com
-      - arber.katellari@itsyscom.com
-      - ionut.boangiu@itsyscom.com
+    recipients_file: recipients
+    recipients_only: true
   when:
     status: failure
 
@@ -61,7 +60,7 @@ steps:
 #   pull: never
 #   image: drillster/drone-email
 #   settings:
-#     from: arber.katellari@itsyscom.com
+#     from: cgrates.test01@gmail.com
 #     host: smtp.gmail.com
 #     username: 
 #       from_secret: email_username
@@ -80,8 +79,8 @@ steps:
 #       Commit message: {{ commit.message }}
 #       Commit branch: {{ commit.branch }}
 #       Commit link: {{ commit.link }}
-#     recipients:
-#       - morganfreeman005@gmail.com
+#     recipients_file: recipients
+#     recipients_only: true
 
 
 # ---
@@ -105,7 +104,7 @@ steps:
 #   pull: never
 #   image: drillster/drone-email
 #   settings:
-#     from: arber.katellari@itsyscom.com
+#     from: cgrates.test01@gmail.com
 #     host: smtp.gmail.com
 #     username: 
 #       from_secret: email_username
@@ -124,8 +123,8 @@ steps:
 #       Commit message: {{ commit.message }}
 #       Commit branch: {{ commit.branch }}
 #       Commit link: {{ commit.link }}
-#     recipients:
-#       - morganfreeman005@gmail.com
+#     recipients_file: recipients
+#     recipients_only: true
 
 
 # ---
@@ -149,7 +148,7 @@ steps:
 #   pull: never
 #   image: drillster/drone-email
 #   settings:
-#     from: arber.katellari@itsyscom.com
+#     from: cgrates.test01@gmail.com
 #     host: smtp.gmail.com
 #     username: 
 #       from_secret: email_username
@@ -168,8 +167,8 @@ steps:
 #       Commit message: {{ commit.message }}
 #       Commit branch: {{ commit.branch }}
 #       Commit link: {{ commit.link }}
-#     recipients:
-#       - morganfreeman005@gmail.com
+#     recipients_file: recipients
+#     recipients_only: true
 
 
 # ---
@@ -193,7 +192,7 @@ steps:
 #   pull: never
 #   image: drillster/drone-email
 #   settings:
-#     from: arber.katellari@itsyscom.com
+#     from: cgrates.test01@gmail.com
 #     host: smtp.gmail.com
 #     username: 
 #       from_secret: email_username
@@ -212,5 +211,5 @@ steps:
 #       Commit message: {{ commit.message }}
 #       Commit branch: {{ commit.branch }}
 #       Commit link: {{ commit.link }}
-#     recipients:
-#       - morganfreeman005@gmail.com
+#     recipients_file: recipients
+#     recipients_only: true
