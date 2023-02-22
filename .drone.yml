@@ -14,7 +14,7 @@ steps:
 - name: notify
   image: drillster/drone-email
   settings:
-    from.address: arber.katellari@itsyscom.com
+    from.address: arber0katellari@gmail.com
     from.name: DroneMail
     host: smtp.gmail.com
     username: 
@@ -36,7 +36,7 @@ steps:
       Commit link: {{ commit.link }}
     recipients:
       - morganfreeman005@gmail.com
-      - arber0katellari@gmail.com
+      - arber.katellari@itsyscom.com
   when:
     status: failure
 
