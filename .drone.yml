@@ -1,3 +1,4 @@
+---
 kind: pipeline
 type: docker
 name: unit
@@ -189,3 +190,8 @@ steps:
   when:
     status:
     - failure
+---
+kind: signature
+hmac: 95672461d863ff7e7d60662c732f85655664901fe54430603369041b82fbf95d
+
+...
