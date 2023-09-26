@@ -16,10 +16,10 @@
 # PATH should only include /usr/* if it runs after the mountnfs.sh script
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
 DESC="CGRateS real-time charging system"
-NAME=cgrates
+NAME=arber
 DAEMON=/usr/bin/cgr-engine
-USER=cgrates
-GROUP=cgrates
+USER=arber
+GROUP=arber
 DAEMON_OPTS=""
 TUTFOLDER=/usr/share/cgrates/tutorials/kamevapi/cgrates
 TMP_DIR=/tmp/cgr_kamevapi/cgrates
