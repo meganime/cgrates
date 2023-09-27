@@ -738,7 +738,7 @@ func GetCGRVersion() (vers string, err error) {
 	rdr := bytes.NewBufferString(GitLastLog)
 	var commitHash string
 	var commitDate time.Time
-	for i := 0; i < 5; i++ { // read a maximum of 5 lines
+	for i := 0; i < 6; i++ { // read a maximum of 5 lines
 		var ln string
 		ln, err = rdr.ReadString('\n')
 		if err != nil {
