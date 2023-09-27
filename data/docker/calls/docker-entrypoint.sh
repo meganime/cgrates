@@ -39,3 +39,5 @@ cp -r /go/src/github.com/cgrates/cgrates/data/. /usr/share/cgrates
 
 # Set versions
 cgr-migrator -exec=*set_versions -config_path=/usr/share/cgrates/conf/samples/tutmysql
+
+sleep 900
