@@ -77,8 +77,6 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 # Download and extract PJSUA
 RUN mkdir -p /tmp && \
     curl -L https://github.com/pjsip/pjproject/archive/refs/tags/2.9.tar.gz | tar xz -C /tmp --strip-components=1 && \
-    cd /tmp && \
-    ./configure && make && make install && \
-    rm -rf /tmp
-
+    cd /tmp && ./configure && make && make install
+    
 ENTRYPOINT ["docker-entrypoint.sh"]
