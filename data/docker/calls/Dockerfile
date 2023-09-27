@@ -53,25 +53,17 @@ COPY ./conf/redis.conf /etc/redis/redis.conf
 
 COPY ./docker-entrypoint.sh /usr/local/bin/
 
-# Set environment variables
-ENV KAMAILIO_VERSION=56
-ENV PJSUA_VERSION=2.9
-ENV PJSUA_URL=https://github.com/pjsip/pjproject/archive/refs/tags/${PJSUA_VERSION}.tar.gz
-ENV TMP_DIR=/tmp
-
 # Install necessary dependencies
-RUN apt-get update && apt-get install -y \
-    libasound2-dev \
-    libssl-dev 
+RUN apt-get update && apt-get install -y libasound2-dev libssl-dev 
 
 # Add Kamailio repository key
 RUN apt-key adv --fetch-keys http://deb.kamailio.org/kamailiodebkey.gpg
 
 # Add Kamailio repository
-RUN echo "deb http://deb.kamailio.org/kamailio${KAMAILIO_VERSION} bullseye main" >> /etc/apt/sources.list.d/kamailio.list
+RUN echo "deb http://deb.kamailio.org/kamailio56 bullseye main" >> /etc/apt/sources.list.d/kamailio.list
 
 # Add Kamailio repository src
-RUN echo "deb-src http://deb.kamailio.org/kamailio${KAMAILIO_VERSION} bullseye main" >> /etc/apt/sources.list.d/kamailio.list
+RUN echo "deb-src http://deb.kamailio.org/kamailio56 bullseye main" >> /etc/apt/sources.list.d/kamailio.list
 
 # Install Kamailio packages
 RUN apt-get update && apt-get install -y \
@@ -83,10 +75,8 @@ RUN apt-get update && apt-get install -y \
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Download and extract PJSUA
-RUN mkdir -p ${TMP_DIR} && \
-    curl -L ${PJSUA_URL} | tar xz -C ${TMP_DIR} --strip-components=1 && \
-    cd ${TMP_DIR} && \
-    ./configure && make && make install && \
-    rm -rf ${TMP_DIR}
+RUN mkdir -p /tmp && \
+    curl -L https://github.com/pjsip/pjproject/archive/refs/tags/2.9.tar.gz | tar xz -C /tmp --strip-components=1 && \
+    cd /tmp && ./configure && make && make install
 
 ENTRYPOINT ["docker-entrypoint.sh"]
