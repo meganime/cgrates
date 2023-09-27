@@ -1,3 +1,42 @@
+---
+kind: pipeline
+type: docker
+name: calls-test-kamailio
+
+
+workspace:
+  path: /go/src/github.com/cgrates/cgrates/
+
+steps:
+- name: calls-test-kamailio
+  pull: never
+  image: cgrates-calls
+  commands:
+  - data/docker/calls/docker-entrypoint.sh
+  - go test github.com/cgrates/cgrates/general_tests -tags=call -run=TestKamailioCalls -v
+  failure: ignore
+- name: notify
+  pull: never
+  image: drillster/drone-email
+  settings:
+    from.address: cgrates.dronebot@gmail.com
+    from.name: DroneEmail
+    host: smtp.gmail.com
+    username: 
+      from_secret: email_username
+    password:
+      from_secret: email_password
+    subject: >
+      [{{ build.status }}]
+      {{ repo.owner }}/{{ repo.name }}
+      ({{ commit.branch }})
+    body: 
+      file:///go/src/github.com/cgrates/cgrates/drone_template.html
+    recipients_file: recipients
+  when:
+    status:
+    - failure
+    
 # ---
 # kind: pipeline
 # type: docker
@@ -190,46 +229,3 @@
 #   when:
 #     status:
 #     - failure
-# ---
-# kind: signature
-# hmac: 95672461d863ff7e7d60662c732f85655664901fe54430603369041b82fbf95d
-
-# ...
----
-kind: pipeline
-type: docker
-name: calls-test-kamailio
-
-
-workspace:
-  path: /go/src/github.com/cgrates/cgrates/
-
-steps:
-- name: calls-test-kamailio
-  pull: never
-  image: cgrates-calls
-  commands:
-  - data/docker/calls/docker-entrypoint.sh
-  - go test github.com/cgrates/cgrates/general_tests -tags=call -run=TestKamailioCalls -v
-  failure: ignore
-- name: notify
-  pull: never
-  image: drillster/drone-email
-  settings:
-    from.address: cgrates.dronebot@gmail.com
-    from.name: DroneEmail
-    host: smtp.gmail.com
-    username: 
-      from_secret: email_username
-    password:
-      from_secret: email_password
-    subject: >
-      [{{ build.status }}]
-      {{ repo.owner }}/{{ repo.name }}
-      ({{ commit.branch }})
-    body: 
-      file:///go/src/github.com/cgrates/cgrates/drone_template.html
-    recipients_file: recipients
-  when:
-    status:
-    - failure
